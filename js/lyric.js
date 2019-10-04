@@ -76,7 +76,7 @@
 			return this.index-1;
 		},
 
-		//寻找索引
+		//寻找索引czk
 		indexSeekTo:function(value) {
 			for(var i = 0;i<this.times.length-1;i++){
 				if(value<this.times[i]){
