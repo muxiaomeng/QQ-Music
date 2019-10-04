@@ -177,6 +177,7 @@ $(function (argument) {
 
 			//切换歌词信息
 			initMusicLyric(list_music[0].ele);
+			
 		});
 
 		//监听底部播放按钮
@@ -221,6 +222,7 @@ $(function (argument) {
 		})
 
 		//监听播放的进度
+		var LyricIndex2 = -1;
 		player.muiscTimeUpdate(function(currentTime,duration,time) {
 			//同步时间
 			$(".music_progress_time").text(time);
@@ -229,15 +231,31 @@ $(function (argument) {
 			
 			progress.setProgress(value);
 			
+			if(value<=1){
+				$(".song_lyric").css({
+					marginTop:0
+				});
+			}
 
 			//实现歌词同步
 			var LyricIndex = lyric.currentIndex(currentTime);
+			
 			$(".song_lyric>li").eq(LyricIndex).addClass("cur");
 			$(".song_lyric>li").eq(LyricIndex).siblings().removeClass("cur");
 
 			if(LyricIndex<=2) return;
+			
+			if(LyricIndex2!=LyricIndex){
+				var lyricHeight=0;
+				for(var i = 0;i<=LyricIndex-3;i++){
+					lyricHeight-=$(".song_lyric>li").eq(i).height();
+				}
+				LyricIndex2=LyricIndex;
+			}
+			
 			$(".song_lyric").css({
-				marginTop:(-LyricIndex+2)*30
+				// marginTop:(-LyricIndex+2)*30
+				marginTop:lyricHeight
 			});
 
 			//一首歌播放完后 播放下一首
